@@ -7,8 +7,14 @@ from tenacity import (
     wait_random_exponential,  # type: ignore
 )
 import openai
+from openai import OpenAI
+import os
 
 MessageRole = Literal["system", "user", "assistant"]
+
+#API_KEY = os.getenv("DEEPSEEK_API_KEY")
+API_KEY = "sk-be98bff7b1bb4d089b759ec14dba413a"
+DeepSeekClient = OpenAI(api_key=API_KEY, base_url='https://api.deepseek.com/v1')
 
 
 @dataclasses.dataclass()
@@ -75,6 +81,31 @@ def gpt_chat(
     return [choice.message.content for choice in response.choices]  # type: ignore
 
 
+# zhangqi
+@retry(wait=wait_random_exponential(min=1, max=180), stop=stop_after_attempt(6))
+def ds_chat(
+    model: str, 
+    messages: List[Message],
+    max_tokens: int = 1024,
+    temperature: float = 1.0,
+    num_comps=1,
+) -> Union[List[str], str]:
+    response = DeepSeekClient.chat.completions.create(
+        model=model, 
+        messages=[dataclasses.asdict(message) for message in messages],
+        max_tokens=max_tokens,
+        temperature=temperature,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.0,
+        n=num_comps,
+    )
+    if num_comps == 1:
+        return response.choices[0].message.content  # type: ignore
+
+    return [choice.message.content for choice in response.choices]  # type: ignore
+
+
 class ModelBase():
     def __init__(self, name: str):
         self.name = name
@@ -88,6 +119,15 @@ class ModelBase():
 
     def generate(self, prompt: str, max_tokens: int = 1024, stop_strs: Optional[List[str]] = None, temperature: float = 0.0, num_comps=1) -> Union[List[str], str]:
         raise NotImplementedError
+
+# zhangqi
+class DeepSeekChat(ModelBase):
+    def __init__(self, ):
+        # self.name = 'deepseek-chat'
+        self.name = 'deepseek-coder'
+        self.is_chat = True
+    def generate_chat(self, messages: List[Message], max_tokens: int = 1024, temperature: float = 1.0, num_comps: int = 1) -> Union[List[str], str]:
+        return ds_chat(self.name, messages, max_tokens, temperature, num_comps)
 
 
 class GPTChat(ModelBase):

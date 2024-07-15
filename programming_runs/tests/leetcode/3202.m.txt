@@ -1,0 +1,20 @@
+def maximumLength(nums: List[int], k: int) -> int:
+    """
+    You are given an integer array nums and a positive integer k.
+    A subsequence sub of nums with length x is called valid if it satisfies:
+    (sub[0] + sub[1]) % k == (sub[1] + sub[2]) % k == ... == (sub[x - 2] + sub[x - 1]) % k.
+    Return the length of the longest valid subsequence of nums.
+    
+    Examples:
+    >>> maximumLength([1,2,3,4,5], 2)
+    5
+    
+    >>> maximumLength([1,4,2,3,1,4], 3)
+    4
+    
+    Constraints
+    2 <= nums.length <= 10^3
+    1 <= nums[i] <= 10^7
+    1 <= k <= 10^3
+    """
+

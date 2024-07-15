@@ -1,0 +1,21 @@
+def getEncryptedString(s: str, k: int) -> str:
+    """
+    You are given a string s and an integer k. Encrypt the string using the following algorithm:
+    
+    For each character c in s, replace c with the k-th character after c in the string (in a cyclic manner).
+    Return the encrypted string.
+    
+    Example:
+    >>> getEncryptedString('dart', 3)
+    'tdar'
+    
+    >>> getEncryptedString('aaa', 1)
+    'aaa'
+    
+    Constraints:
+    
+    1 <= s.length <= 100
+    1 <= k <= 10^4
+    s consists only of lowercase English letters.
+    """
+

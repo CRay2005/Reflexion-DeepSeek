@@ -5,7 +5,7 @@ from immediate_reflexion import run_immediate_reflexion
 
 from simple import run_simple
 from reflexion import run_reflexion
-from reflexion_ucs import run_reflexion_ucs
+#from reflexion_ucs import run_reflexion_ucs
 from test_acc import run_test_acc
 from utils import read_jsonl, read_jsonl_gz
 
@@ -57,8 +57,8 @@ def strategy_factory(strategy: str):
         return kwargs_wrapper_gen(run_immediate_reflexion, delete_keys=["expansion_factor"])
     elif strategy == "immediate-refinement":
         return kwargs_wrapper_gen(run_immediate_refinement, delete_keys=["expansion_factor"])
-    elif strategy == "reflexion-ucs":
-        return kwargs_wrapper_gen(run_reflexion_ucs)
+    #elif strategy == "reflexion-ucs":
+    #    return kwargs_wrapper_gen(run_reflexion_ucs)
     elif strategy == "test-acc":
         return kwargs_wrapper_gen(run_test_acc, delete_keys=["expansion_factor", "max_iters"])
     else:

@@ -4,6 +4,9 @@ from generators import generator_factory, model_factory
 
 from typing import List
 
+# zhangqi
+DEFAULT_TEMP = 1.0
+
 
 def run_reflexion(
     dataset: List[dict],
@@ -35,9 +38,12 @@ def run_reflexion(
                 tests_i = item['visible_tests']
             else:
                 tests_i = gen.internal_tests(item["prompt"], model, 1)
+                # tests_i = gen.internal_tests(item["prompt"], model, 5)
+
+            print_v(f'test_i = {tests_i}')
 
             # first attempt
-            cur_func_impl = gen.func_impl(item["prompt"], model, "simple")
+            cur_func_impl = gen.func_impl(item["prompt"], model, "simple", temperature=DEFAULT_TEMP)
             implementations.append(cur_func_impl)
             assert isinstance(cur_func_impl, str)
             is_passing, feedback, _ = exe.execute(cur_func_impl, tests_i)
@@ -68,6 +74,7 @@ def run_reflexion(
                     prev_func_impl=cur_func_impl,
                     feedback=cur_feedback,
                     self_reflection=reflection,
+                    temperature=DEFAULT_TEMP,
                 )
                 implementations.append(cur_func_impl)
                 assert isinstance(cur_func_impl, str)

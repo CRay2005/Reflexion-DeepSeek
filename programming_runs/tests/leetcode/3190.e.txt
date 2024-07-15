@@ -1,0 +1,19 @@
+def minimumOperations(nums: List[int]) -> int:
+    """
+    You are given an integer array nums. In one operation, you can add or subtract 1 from any element of nums.
+    
+    Return the minimum number of operations to make all elements of nums divisible by 3.
+    
+    Examples:
+    >>> minimumOperations([1,2,3,4])
+    3
+    
+    >>> minimumOperations([3,6,9])
+    0
+    
+    Constraints:
+    
+    1 <= nums.length <= 50
+    1 <= nums[i] <= 50
+    """
+

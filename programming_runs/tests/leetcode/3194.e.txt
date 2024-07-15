@@ -1,0 +1,29 @@
+def minimumAverage(nums: List[int]) -> float:
+    """
+    You have an array of floating point numbers averages which is initially empty. You are given an array nums of n integers where n is even.
+    
+    You repeat the following procedure n / 2 times:
+    
+    Remove the smallest element, minElement, and the largest element maxElement, from nums.
+    Add (minElement + maxElement) / 2 to averages.
+    Return the minimum element in averages.
+    
+    Examples:
+    >>> minimumAverage([7,8,3,4,15,13,4,1])
+    5.5
+    
+    >>> minimumAverage([1,9,8,3,10,5])
+    5.5
+    
+    >>> minimumAverage([1,2,3,7,8,9])
+    5.0
+    
+    Constraints:
+    
+    2 <= n == nums.length <= 50
+    n is even.
+    1 <= nums[i] <= 50
+
+
+    """
+
