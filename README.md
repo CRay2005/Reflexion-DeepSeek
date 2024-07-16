@@ -1,103 +1,69 @@
-# [NeurIPS 2023] Reflexion: Language Agents with Verbal Reinforcement Learning
+# CRay
 
-This repo holds the code, demos, and log files for [Reflexion: Language Agents with Verbal Reinforcement Learning](https://arxiv.org/abs/2303.11366) by Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, Shunyu Yao. 
+### 1.概述：
+基于Reflexion框架+DeepSeek API实现一个代码编写助手。
 
-![Reflexion RL diagram](./figures/reflexion_rl.png)
+### 2.实验：
+在HumanEval coding benchmark上进行测试
 
-![Reflexion tasks](./figures/reflexion_tasks.png)
+### 3.实验对比：
+1）Reflexion+DeepSeek比纯DeepSeek的提升
 
-We have released the LeetcodeHardGym [here](https://github.com/GammaTauAI/leetcode-hard-gym)
+2）当前最强开源编码大模型DeepSeek与通用大模型GPT-4在代码编写能力上的对比
 
-### To Run: reasoning (HotPotQA)
-We have provided a set of notebooks to easily run, explore, and interact with the results of the reasoning experiments. Each experiment consists of a random sample of 100 questions from the HotPotQA distractor dataset. Each question in the sample is attempted by an agent with a specific type and reflexion strategy.
+### 4.工程：
+基于上述“Reflexion框架+DeepSeek API”的技术方案，实现一个“LeetCode解题助手”，使用最新的LeetCode题目进行评测。实现了简单的文字交互界面，命令行调用。
 
-#### Setup
+目前能比较好的解决leetcode的“简单”级别问题。
 
-To get started:
+现在的技术框架是Reflexion+DeepSeek API，作为对比，对于LeetCode简单问题，单纯调用DeepSeek API的成功率大概5/9，加入Reflexion后能达到8/9
 
-1. Clone this repo and move to the HotPotQA directory:
+### 5.相关资源：
+Paper：Reflexion: Language Agents with Verbal Reinforcement Learning 
+( [NeurIPS 2023] ，https://arxiv.org/abs/2303.11366) 
+
+Reflexion：https://github.com/noahshinn/reflexion 
+
+DeepSeek API：https://platform.deepseek.com/api-docs/zh-cn/
+
+### 6.To Setup & Run
+
+1) Clone this repo and move to the programming_runs directory:
 ```bash
-git clone https://github.com/noahshinn/reflexion && cd ./hotpotqa_runs
+git clone https://github.com/CRay2005/Reflexion-DeepSeek && cd ./programming_runs
 ```
 
-2. Install the module dependencies into your environment:
+2) Install the module dependencies into your environment:
 ```bash
+conda create -n your_env_name python=X.X
 pip install -r requirements.txt
 ```
 
-3. Set `OPENAI_API_KEY` environment variable to your OpenAI API key:
+3) Set `OPENAI_API_KEY` environment variable to your DeepSeek API key:
 ```bash
+#./reflexion/programming_runs/generators/model.py
 export OPENAI_API_KEY=<your key>
 ```
+去DeepSeek申请一个api-key
 
-#### Agent Types
+https://platform.deepseek.com/api-docs/zh-cn/
 
-Agent type is determined by the notebook you choose to run. The available agent types include:
- - `ReAct` - ReAct Agent
+然后用申请到的api-key替换model.py文件里的API_KEY
 
- - `CoT_context` - CoT Agent given supporting context about the question 
+### 7.其它
+关于openai库安装的说明
 
- - `CoT_no_context` - CoT Agent given no supporting context about the question
+官网的介绍是pip install openai。不过它没说Python版本最好<=3.8。
 
-The notebook for each agent type is located in the `./hotpot_runs/notebooks` directory.
+若Python版本过高，到达了3.11，会出现以下报错：
 
-#### Reflexion Strategies
+ImportError: cannot import name 'OpenAI' from 'openai'
 
-Each notebook allows you to specify the reflexion strategy to be used by the agents. The available reflexion strategies, which are defined in an `Enum`, include:
+因此请直接使用Python==3.8。
 
- - `ReflexionStrategy.NONE` - The agent is not given any information about its last attempt. 
+更新（2024/07/16）
 
- - `ReflexionStrategy.LAST_ATTEMPT` - The agent is given its reasoning trace from its last attempt on the question as context.
+现在openai更新了，python高版本也可支持，直接运行这行指令试试吧：
 
- - `ReflexionStrategy.REFLEXION` - The agent is given its self-reflection on the last attempt as context. 
+pip install openai --upgrade
 
- - `ReflexionStrategy.LAST_ATTEMPT_AND_REFLEXION` -  The agent is given both its reasoning trace and self-reflection on the last attempt as context.
-
-### To Run: decision-making (AlfWorld)
-Clone this repo and move to the AlfWorld directory
-```bash
-git clone https://github.com/noahshinn/reflexion && cd ./alfworld_runs
-```
-
-Specify the run parameters in `./run_reflexion.sh`.
-`num_trials`: number of iterative learning steps
-`num_envs`: number of task-environment pairs per trial
-`run_name`: the name for this run
-`use_memory`: use persisting memory to store self-reflections (turn off to run a baseline run)
-`is_resume`: use logging directory to resume a previous run
-`resume_dir`: the logging directory from which to resume the previous run
-`start_trial_num`: if resume run, then the trial number of which to start
-
-Run the trial
-```bash
-./run_reflexion.sh
-```
-
-The logs will be sent to `./root/<run_name>`.
-
-### Another Note
-
-Due to the nature of these experiments, it may not be feasible for individual developers to rerun the results as GPT-4 has limited access and significant API charges. All runs from the paper and additional results are logged in `./alfworld_runs/root` for decision-making, `./hotpotqa_runs/root` for reasoning, and `./programming_runs/root` for programming
-
-### Other Notes
-
-Check out the code for the original code [here](https://github.com/noahshinn/reflexion-draft)
-
-Read a blog post [here](https://nanothoughts.substack.com/p/reflecting-on-reflexion)
-
-Check out an interesting type-prediction implementation here: [OpenTau](https://github.com/GammaTauAI/opentau)
-
-For all questions, contact [noahrshinn@gmail.com](noahrshinn@gmail.com)
-
-### Cite
-
-```bibtex
-@misc{shinn2023reflexion,
-      title={Reflexion: Language Agents with Verbal Reinforcement Learning}, 
-      author={Noah Shinn and Federico Cassano and Edward Berman and Ashwin Gopinath and Karthik Narasimhan and Shunyu Yao},
-      year={2023},
-      eprint={2303.11366},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI}
-}
-```
