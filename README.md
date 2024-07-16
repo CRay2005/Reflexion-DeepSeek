@@ -39,10 +39,10 @@ conda create -n your_env_name python=X.X
 pip install -r requirements.txt
 ```
 
-3) Set `OPENAI_API_KEY` environment variable to your DeepSeek API key:
+3) Set `DEEPSEEK_API_KEY` environment variable to your DeepSeek API key:
 ```bash
 #./reflexion/programming_runs/generators/model.py
-export OPENAI_API_KEY=<your key>
+export DEEPSEEK_API_KEY=<your key>
 ```
 去DeepSeek申请一个api-key
 

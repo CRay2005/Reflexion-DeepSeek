@@ -1,8 +1,6 @@
 from typing import List, Union, Optional, Literal
 import dataclasses
 
-export DEEPSEEK_API_KEY="sk-be98bff7b1bb4d089b759ec14dba413a"
-
 from tenacity import (
     retry,
     stop_after_attempt,  # type: ignore
@@ -14,8 +12,8 @@ import os
 
 MessageRole = Literal["system", "user", "assistant"]
 
-API_KEY = os.getenv("DEEPSEEK_API_KEY")
-
+#API_KEY = os.getenv("DEEPSEEK_API_KEY")
+API_KEY = "sk-be98bff7b1bb4d089b759ec14dba413a"
 DeepSeekClient = OpenAI(api_key=API_KEY, base_url='https://api.deepseek.com/v1')
 
 
