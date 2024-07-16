@@ -6,7 +6,7 @@ from generators.py_generate import py_is_syntax_valid
 from typing import List
 from sys import stdin, stdout, stderr
 
-# zhangqi
+# CRay
 DEFAULT_TEMP = 1.0
 
 def flushout(s, color='w'):
@@ -127,7 +127,7 @@ def cli_chat(
                     with open(fname) as fin:
                         prompt = ''.join(fin.readlines())
                 except Exception:
-                    flusherr(f'Error: cannot open file! {ffname}\n')
+                    flusherr(f'Error: cannot open file! {fname}\n')
 
             if len(prompt)==0:
                 continue

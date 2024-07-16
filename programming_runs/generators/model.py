@@ -1,6 +1,8 @@
 from typing import List, Union, Optional, Literal
 import dataclasses
 
+export DEEPSEEK_API_KEY="sk-be98bff7b1bb4d089b759ec14dba413a"
+
 from tenacity import (
     retry,
     stop_after_attempt,  # type: ignore
@@ -12,8 +14,8 @@ import os
 
 MessageRole = Literal["system", "user", "assistant"]
 
-#API_KEY = os.getenv("DEEPSEEK_API_KEY")
-API_KEY = "sk-be98bff7b1bb4d089b759ec14dba413a"
+API_KEY = os.getenv("DEEPSEEK_API_KEY")
+
 DeepSeekClient = OpenAI(api_key=API_KEY, base_url='https://api.deepseek.com/v1')
 
 
@@ -81,7 +83,7 @@ def gpt_chat(
     return [choice.message.content for choice in response.choices]  # type: ignore
 
 
-# zhangqi
+# CRay
 @retry(wait=wait_random_exponential(min=1, max=180), stop=stop_after_attempt(6))
 def ds_chat(
     model: str, 
@@ -120,7 +122,7 @@ class ModelBase():
     def generate(self, prompt: str, max_tokens: int = 1024, stop_strs: Optional[List[str]] = None, temperature: float = 0.0, num_comps=1) -> Union[List[str], str]:
         raise NotImplementedError
 
-# zhangqi
+# CRay
 class DeepSeekChat(ModelBase):
     def __init__(self, ):
         # self.name = 'deepseek-chat'
